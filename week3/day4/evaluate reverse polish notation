@@ -1,0 +1,13 @@
+class Solution:
+    def evalRPN(self, tokens):
+        stack = []
+        for t in tokens:
+            if t in {'+', '-', '*', '/'}:  # single char operators only
+                b, a = stack.pop(), stack.pop()
+                if   t == '+': stack.append(a + b)
+                elif t == '-': stack.append(a - b)
+                elif t == '*': stack.append(a * b)
+                else: stack.append(-(-a // b) if (a < 0) ^ (b < 0) else a // b)
+            else:
+                stack.append(int(t))  # handles "-11" correctly
+        return stack[0]
